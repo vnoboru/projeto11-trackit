@@ -14,19 +14,26 @@ export default function NavBar() {
 }
 
 const Container = styled.div`
+  position: fixed;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  width: 375px;
+  width: 100%;
   height: 70px;
   background: #126ba5;
-  padding: 0px 18px;
-  margin: auto;
+
+  h1 {
+    font-family: PlayBall;
+    font-size: 40px;
+    color: #ffffff;
+    margin-left: 10px;
+  }
 
   img {
     width: 51px;
     height: 51px;
     background: url(image.png);
     border-radius: 90px;
+    margin-right: 10px;
   }
 `;
