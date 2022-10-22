@@ -14,7 +14,7 @@ export default function NavBar() {
 }
 
 const Container = styled.div`
-  position: fixed;
+  position: absolute;
   display: flex;
   justify-content: space-between;
   align-items: center;
