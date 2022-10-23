@@ -12,18 +12,18 @@ function App() {
   const [usuario, setUsuario] = useState({});
 
   return (
-    <UserContext.Provider value={{ usuario, setUsuario }}>
-      <BrowserRouter>
-        <GlobalStyle />
-        <Routes>
-          <Route path="/" element={<LoginPage />} />
-          <Route path="/cadastro" element={<RegisterPage />} />
-          <Route path="/hoje" element={<TodayPage />} />
-          <Route path="/habitos" element={<HabitsPage />} />
-          <Route path="/historico" element={<HistoricPage />} />
-        </Routes>
-      </BrowserRouter>
-    </UserContext.Provider>
+      <UserContext.Provider value={{ usuario, setUsuario }}>
+        <BrowserRouter>
+          <GlobalStyle />
+          <Routes>
+            <Route path="/" element={<LoginPage />} />
+            <Route path="/cadastro" element={<RegisterPage />} />
+            <Route path="/hoje" element={<TodayPage />} />
+            <Route path="/habitos" element={<HabitsPage />} />
+            <Route path="/historico" element={<HistoricPage />} />
+          </Routes>
+        </BrowserRouter>
+      </UserContext.Provider>
   );
 }
 

@@ -4,6 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { ThreeDots } from "react-loader-spinner";
 import logo from "../../assets/images/logo.jpg";
 import Container from "../../assets/styles/Container";
+import Token from "../../context/Token";
 import axios from "axios";
 
 export default function LoginPage() {
@@ -11,6 +12,7 @@ export default function LoginPage() {
   const setUsuario = useContext(UserContext);
   const [loginUsuario, setLoginUsuario] = useState({ email: "", password: "" });
   const [carregando, setCarregando] = useState(false);
+  const { setToken } = useContext(Token);
 
   //Função para enviar email/senha API
   function enviarDados(event) {
@@ -22,7 +24,7 @@ export default function LoginPage() {
 
     //Caso de sucesso
     promise.then((response) => {
-      console.log(response);
+      setToken(response.data.token);
       setUsuario.setUsuario(response.data);
       navigate("/hoje");
     });

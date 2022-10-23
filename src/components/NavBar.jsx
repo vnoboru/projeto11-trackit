@@ -4,7 +4,6 @@ import UserContext from "../context/UserContext";
 
 export default function NavBar() {
   const { usuario } = useContext(UserContext);
-  console.log(usuario);
   return (
     <Container>
       <h1>TrackIt</h1>

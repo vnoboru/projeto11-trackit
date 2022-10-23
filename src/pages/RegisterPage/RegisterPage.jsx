@@ -23,7 +23,6 @@ export default function RegisterPage() {
 
     //Caso de sucesso
     promise.then((response) => {
-      console.log(response);
       navigate("/");
     });
 
