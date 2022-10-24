@@ -7,19 +7,20 @@ export default function NavBar() {
   return (
     <Container>
       <h1>TrackIt</h1>
-      <img src={usuario.image} alt="imagem" />
+      <img data-identifier="avatar" src={usuario.image} alt="imagem" />
     </Container>
   );
 }
 
 const Container = styled.div`
-  position: absolute;
+  position: fixed;
   display: flex;
   justify-content: space-between;
   align-items: center;
   width: 100%;
   height: 70px;
   background: #126ba5;
+  z-index: 1;
 
   h1 {
     font-family: PlayBall;

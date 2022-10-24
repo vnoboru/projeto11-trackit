@@ -1,13 +1,13 @@
-import axios from "axios";
 import { useContext, useState } from "react";
 import styled from "styled-components";
 import UserContext from "../../context/UserContext";
-import enviarHabito from "./SendHabits"
+import enviarHabito from "./SendHabits";
 
 function ContainerDias(props) {
   const { dia, numero, criarHabito, setCriarHabito } = props;
   return (
     <button
+      data-identifier="week-day-btn"
       className={criarHabito.days.includes(numero) ? "marked" : ""}
       onClick={() => {
         if (criarHabito.days.includes(numero)) {
@@ -30,7 +30,7 @@ function ContainerDias(props) {
 
 export default function CreateHabits() {
   //Para enviar a requisição da API - nomehabito/selecionar dias
-  const { usuario, setUsuario } = useContext(UserContext);
+  const { usuario, setMostrarSessao } = useContext(UserContext);
   const [criarHabito, setCriarHabito] = useState({ name: "", days: [] });
   const diasDaSemana = [
     { dia: "D", numero: 0 },
@@ -48,6 +48,7 @@ export default function CreateHabits() {
   return (
     <NovoHabito>
       <input
+        data-identifier="input-habit-name"
         required
         placeholder="Nome do hábito"
         type="text"
@@ -67,12 +68,19 @@ export default function CreateHabits() {
         ))}
       </div>
       <ContainerOpcoes>
-        <h1>Cancelar</h1>
+        <h1
+          data-identifier="cancel-habit-create-btn"
+          onClick={() => setMostrarSessao(false)}
+        >
+          Cancelar
+        </h1>
         <button
+          data-identifier="save-habit-create-btn"
           onClick={() =>
             enviarHabito({
               criarHabito,
-              header
+              setMostrarSessao,
+              header,
             })
           }
         >
@@ -121,7 +129,7 @@ const NovoHabito = styled.div`
   }
 
   .marked {
-    background-color: #52b6ff;    
+    background-color: #52b6ff;
     border: 1px solid #52b6ff;
     color: #ffffff;
   }

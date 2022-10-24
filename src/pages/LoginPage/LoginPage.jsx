@@ -40,6 +40,7 @@ export default function LoginPage() {
 
       <form onSubmit={enviarDados}>
         <input
+          data-identifier="input-email"
           required
           type="email"
           placeholder="email"
@@ -49,6 +50,7 @@ export default function LoginPage() {
           disabled={carregando}
         ></input>
         <input
+          data-identifier="input-password"
           required
           type="password"
           placeholder="senha"
@@ -61,7 +63,7 @@ export default function LoginPage() {
           disabled={carregando}
         ></input>
 
-        <button>
+        <button data-identifier="login-btn">
           {carregando ? (
             <ThreeDots color="#ffffff" width="50px" height="50px" />
           ) : (
@@ -71,7 +73,7 @@ export default function LoginPage() {
       </form>
 
       <Link to="/cadastro">
-        <p>Não tem uma conta? Cadastre-se!</p>
+        <p data-identifier="sign-up-action">Não tem uma conta? Cadastre-se!</p>
       </Link>
     </Container>
   );

@@ -8,11 +8,9 @@ import axios from "axios";
 import icone from "../../assets/images/trash.jpg";
 
 export default function HabitsPage() {
-  const [clicado, setClicado] = useState(false);
-  const { usuario, setUsuario } = useContext(UserContext);
+  const { usuario, mostrarSessao, setMostrarSessao } = useContext(UserContext);
   const [meusHabitos, setMeusHabitos] = useState([]);
   const dias = ["D", "S", "T", "Q", "Q", "S", "S"];
-  const [contador, setContador] = useState(0);
 
   //Pegar token autorização para enviar/imprimir habitos
   const header = { headers: { Authorization: `Bearer ${usuario.token}` } };
@@ -34,7 +32,7 @@ export default function HabitsPage() {
     promise.catch((error) => {
       console.log(error);
     });
-  }, [contador]);
+  }, []);
 
   function excluirHabito(props) {
     let idHabito = props;
@@ -49,7 +47,6 @@ export default function HabitsPage() {
 
       promise.then((res) => {
         console.log(res.data);
-        setContador(contador - 1);
       });
 
       promise.catch((err) => {
@@ -64,14 +61,19 @@ export default function HabitsPage() {
       <ContainerPrincipal>
         <ContainerHabitos>
           <h1>Meus hábitos</h1>
-          <button onClick={() => setClicado(!clicado)}>+</button>
+          <button
+            onClick={() => setMostrarSessao(true)}
+            data-identifier="create-habit-btn"
+          >
+            +
+          </button>
         </ContainerHabitos>
         <ContainerNovo>
-          {clicado ? <CriarHabitos /> : ""}
+          {mostrarSessao ? <CriarHabitos /> : ""}
           {meusHabitos ? (
             meusHabitos.map((dados) => (
               <ContainerLista id={dados.id}>
-                <h1>{dados.name}</h1>
+                <h1 data-identifier="habit-name">{dados.name}</h1>
                 <div>
                   {dias.map((d, i) =>
                     dados.days.includes(i) ? (
@@ -81,13 +83,16 @@ export default function HabitsPage() {
                     )
                   )}
                 </div>
-                <Deletar onClick={() => excluirHabito(dados.id)}>
+                <Deletar
+                  data-identifier="delete-habit-btn"
+                  onClick={() => excluirHabito(dados.id)}
+                >
                   <img src={icone} alt="lixeira" />
                 </Deletar>
               </ContainerLista>
             ))
           ) : (
-            <p>
+            <p data-identifier="no-habit-message">
               Você não tem nenhum hábito cadastrado ainda. Adicione um hábito
               para começar a trackear!
             </p>
@@ -101,7 +106,7 @@ export default function HabitsPage() {
 
 const ContainerPrincipal = styled.div`
   width: 100%;
-  padding-bottom: 100px;
+  height: 100vh;
   background-color: #f2f2f2;
 
   p {
@@ -143,6 +148,8 @@ const ContainerNovo = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  background-color: #f2f2f2;
+  padding-bottom: 100px;
   margin-top: 40px;
 `;
 
@@ -157,7 +164,7 @@ const ContainerLista = styled.div`
   background: #ffffff;
   border-radius: 5px;
   padding: 18px;
-  margin-bottom: 15px;
+  margin-top: 15px;
 
   div {
     padding-top: 10px;

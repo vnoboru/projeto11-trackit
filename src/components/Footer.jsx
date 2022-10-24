@@ -2,16 +2,24 @@ import styled from "styled-components";
 import { buildStyles, CircularProgressbar } from "react-circular-progressbar";
 import "react-circular-progressbar/dist/styles.css";
 import { useNavigate } from "react-router-dom";
+import { useContext } from "react";
+import UserContext from "../context/UserContext";
 
 export default function Footer() {
-    const navigate = useNavigate();
-    
+  const navigate = useNavigate();
+  const { porcentagem } = useContext(UserContext);
   return (
     <Container>
-      <h1 onClick={() => navigate("/habitos")}>Hábitos</h1>
+      <h1
+        data-identifier="habit-page-action"
+        onClick={() => navigate("/habitos")}
+      >
+        Hábitos
+      </h1>
       <section onClick={() => navigate("/hoje")}>
         <CircularProgressbar
           text="Hoje"
+          value={porcentagem}
           background
           backgroundPadding={5}
           styles={buildStyles({
@@ -22,7 +30,12 @@ export default function Footer() {
           })}
         ></CircularProgressbar>
       </section>
-      <h1 onClick={()=> navigate("/historico")}>Histórico</h1>
+      <h1
+        data-identifier="historic-page-action"
+        onClick={() => navigate("/historico")}
+      >
+        Histórico
+      </h1>
     </Container>
   );
 }

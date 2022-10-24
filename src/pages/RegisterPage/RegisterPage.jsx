@@ -39,6 +39,7 @@ export default function RegisterPage() {
       <img src={logo} alt={logo} />
       <form onSubmit={enviarCadastro}>
         <input
+        data-identifier="input-email"
           required
           type="email"
           placeholder="email"
@@ -51,6 +52,7 @@ export default function RegisterPage() {
           disabled={carregando}
         ></input>
         <input
+        data-identifier="input-password"
           required
           type="password"
           placeholder="senha"
@@ -63,6 +65,7 @@ export default function RegisterPage() {
           disabled={carregando}
         ></input>
         <input
+        data-identifier="input-name"
           required
           type="text"
           placeholder="nome"
@@ -75,6 +78,7 @@ export default function RegisterPage() {
           disabled={carregando}
         ></input>
         <input
+        data-identifier="input-photo"
           required
           type="url"
           placeholder="foto"
@@ -86,7 +90,7 @@ export default function RegisterPage() {
           }
           disabled={carregando}
         ></input>
-        <button>
+        <button >
           {carregando ? (
             <ThreeDots color="#ffffff" width="50px" height="50px" />
           ) : (
@@ -95,7 +99,7 @@ export default function RegisterPage() {
         </button>
       </form>
       <Link to="/">
-        <p>Já tem uma conta? Faça login!</p>
+        <p data-identifier="back-to-login-action">Já tem uma conta? Faça login!</p>
       </Link>
     </Container>
   );
