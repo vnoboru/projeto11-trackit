@@ -1,11 +1,62 @@
 import styled from "styled-components";
 import NavBar from "../../components/NavBar";
 import Footer from "../../components/Footer";
-import { useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import CriarHabitos from "./CreateHabits";
+import UserContext from "../../context/UserContext";
+import axios from "axios";
+import icone from "../../assets/images/trash.jpg";
 
 export default function HabitsPage() {
   const [clicado, setClicado] = useState(false);
+  const { usuario, setUsuario } = useContext(UserContext);
+  const [meusHabitos, setMeusHabitos] = useState([]);
+  const dias = ["D", "S", "T", "Q", "Q", "S", "S"];
+  const [contador, setContador] = useState(0);
+
+  //Pegar token autorização para enviar/imprimir habitos
+  const header = { headers: { Authorization: `Bearer ${usuario.token}` } };
+  console.log(header);
+
+  useEffect(() => {
+    const URL =
+      "https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits";
+    const token = usuario.token;
+
+    const promise = axios.get(URL, header);
+
+    promise.then((response) => {
+      let listaHabitos = response.data;
+      setMeusHabitos(listaHabitos);
+      console.log("lista atualizada:", meusHabitos);
+    });
+
+    promise.catch((error) => {
+      console.log(error);
+    });
+  }, [contador]);
+
+  function excluirHabito(props) {
+    let idHabito = props;
+    let confirmacao = window.confirm("Deseja excluir este hábito?");
+    if (confirmacao === true) {
+      const novaListaHabitos = meusHabitos.filter((h) => h.id !== idHabito);
+      setMeusHabitos(novaListaHabitos);
+
+      const URL = `https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits/${idHabito}`;
+
+      const promise = axios.delete(URL, header);
+
+      promise.then((res) => {
+        console.log(res.data);
+        setContador(contador - 1);
+      });
+
+      promise.catch((err) => {
+        console.log(err);
+      });
+    }
+  }
 
   return (
     <>
@@ -17,13 +68,30 @@ export default function HabitsPage() {
         </ContainerHabitos>
         <ContainerNovo>
           {clicado ? <CriarHabitos /> : ""}
-          {/*
-          <ContainerLista>
-          </ContainerLista>*/}
-          <p>
-            Você não tem nenhum hábito cadastrado ainda. Adicione um hábito para
-            começar a trackear!
-          </p>
+          {meusHabitos ? (
+            meusHabitos.map((dados) => (
+              <ContainerLista id={dados.id}>
+                <h1>{dados.name}</h1>
+                <div>
+                  {dias.map((d, i) =>
+                    dados.days.includes(i) ? (
+                      <button className="marked">{d}</button>
+                    ) : (
+                      <button>{d}</button>
+                    )
+                  )}
+                </div>
+                <Deletar onClick={() => excluirHabito(dados.id)}>
+                  <img src={icone} alt="lixeira" />
+                </Deletar>
+              </ContainerLista>
+            ))
+          ) : (
+            <p>
+              Você não tem nenhum hábito cadastrado ainda. Adicione um hábito
+              para começar a trackear!
+            </p>
+          )}
         </ContainerNovo>
       </ContainerPrincipal>
       <Footer />
@@ -33,7 +101,7 @@ export default function HabitsPage() {
 
 const ContainerPrincipal = styled.div`
   width: 100%;
-  height: 100vh;
+  padding-bottom: 100px;
   background-color: #f2f2f2;
 
   p {
@@ -75,7 +143,6 @@ const ContainerNovo = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-
   margin-top: 40px;
 `;
 
@@ -85,9 +152,12 @@ const ContainerLista = styled.div`
   align-items: initial;
   padding-left: 25px;
   padding-top: 18px;
-  width: 340px;
-  height: 180px;
+  width: 330px;
+  height: 80px;
   background: #ffffff;
+  border-radius: 5px;
+  padding: 18px;
+  margin-bottom: 15px;
 
   div {
     padding-top: 10px;
@@ -102,5 +172,21 @@ const ContainerLista = styled.div`
     border: 1px solid #d5d5d5;
     border-radius: 5px;
     color: #dbdbdb;
+  }
+
+  .marked {
+    background-color: #52b6ff;
+    border: 1px solid #52b6ff;
+    color: #ffffff;
+  }
+`;
+
+const Deletar = styled.div`
+  position: absolute;
+  margin-left: 310px;
+
+  img {
+    width: 20px;
+    height: 20px;
   }
 `;

@@ -28,12 +28,14 @@ export default function Footer() {
 }
 
 const Container = styled.div`
-  position: absolute;
+  position: fixed;
   display: flex;
   justify-content: space-around;
   align-items: center;
   width: 100%;
   bottom: 0px;
+  left: 0px;
+  background: #ffffff;
 
   h1 {
     font-size: 18px;

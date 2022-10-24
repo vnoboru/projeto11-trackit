@@ -1,5 +1,8 @@
-import { useState } from "react";
+import axios from "axios";
+import { useContext, useState } from "react";
 import styled from "styled-components";
+import UserContext from "../../context/UserContext";
+import enviarHabito from "./SendHabits"
 
 function ContainerDias(props) {
   const { dia, numero, criarHabito, setCriarHabito } = props;
@@ -25,20 +28,9 @@ function ContainerDias(props) {
   );
 }
 
-function enviarHabito(props) {
-  const { criarHabito } = props;
-
-  if ((criarHabito.days.length === 0) && (criarHabito.name.length === 0)) {
-    return alert("Preencha o nome do hábito e o dia da semana!");
-  } else if (criarHabito.days.length === 0) {
-    return alert("selecione um dia da semana!");
-  } else if (criarHabito.name.length === 0) {
-    return alert("Digite o nome do hábito!");
-  }
-}
-
 export default function CreateHabits() {
   //Para enviar a requisição da API - nomehabito/selecionar dias
+  const { usuario, setUsuario } = useContext(UserContext);
   const [criarHabito, setCriarHabito] = useState({ name: "", days: [] });
   const diasDaSemana = [
     { dia: "D", numero: 0 },
@@ -49,6 +41,9 @@ export default function CreateHabits() {
     { dia: "S", numero: 5 },
     { dia: "S", numero: 6 },
   ];
+
+  //Pegar token autorização para enviar/imprimir habitos
+  const header = { headers: { Authorization: `Bearer ${usuario.token}` } };
 
   return (
     <NovoHabito>
@@ -77,6 +72,7 @@ export default function CreateHabits() {
           onClick={() =>
             enviarHabito({
               criarHabito,
+              header
             })
           }
         >
@@ -125,7 +121,8 @@ const NovoHabito = styled.div`
   }
 
   .marked {
-    background-color: #cfcfcf;
+    background-color: #52b6ff;    
+    border: 1px solid #52b6ff;
     color: #ffffff;
   }
 `;
