@@ -54,6 +54,7 @@ const Container = styled.div`
     font-size: 18px;
     color: #52b6ff;
   }
+
   section {
     width: 90px;
     height: 90px;

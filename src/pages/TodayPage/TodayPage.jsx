@@ -20,10 +20,9 @@ export default function TodayPage() {
 
   let valor = ((done.length / guardarHabitos.length) * 100).toFixed(0);
   setPorcentagem(valor);
-  useEffect(() => {
-    const URL =
-      "https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits/today";
 
+  useEffect(() => {
+    const URL = "https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits/today";
     const promise = axios.get(URL, header);
 
     promise.then((response) => {
@@ -46,7 +45,8 @@ export default function TodayPage() {
         setRenderizar(renderizar + 1);
       });
 
-      promise.catch((error) => console.log(error));
+      promise.catch((error) => 
+      console.log(error));
     } else {
       const novo = done.filter((d) => d !== id);
       setDone(novo);
@@ -56,7 +56,8 @@ export default function TodayPage() {
         setRenderizar(renderizar - 1);
       });
 
-      promise.catch((error) => console.log(error));
+      promise.catch((error) => 
+      console.log(error));
     }
   }
 
@@ -68,16 +69,14 @@ export default function TodayPage() {
         <ContainerTitulos>
           <h1 data-identifier="today-infos">{dataHoje}</h1>
           {porcentagem > 0 ? (
-            <h2 data-identifier="today-infos">
-              {porcentagem}% dos hábitos concluídos
-            </h2>
+            <h2 data-identifier="today-infos">{porcentagem}% dos hábitos concluídos</h2>
           ) : (
             <h3> Nenhum hábito concluído ainda </h3>
           )}
         </ContainerTitulos>
 
         {guardarHabitos.map((h) => (
-          <MyHabit data-identifier="today-infos">
+          <MyHabit data-identifier="today-infos" key={h.id}>
             <h1> {h.name} </h1>
             <h2> Sequência atual: {h.currentSequence} dias </h2>
             <h2> Seu recorde: {h.highestSequence} dias </h2>

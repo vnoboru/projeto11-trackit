@@ -2,8 +2,7 @@ import axios from "axios";
 
 export default function enviarHabito(props) {
   const { criarHabito, header, setMostrarSessao } = props;
-  console.log(header);
-  console.log(criarHabito);
+
   if (criarHabito.days.length === 0 && criarHabito.name.length === 0) {
     return alert("Preencha o nome do hábito e o dia da semana!");
   } else if (criarHabito.days.length === 0) {
@@ -12,9 +11,7 @@ export default function enviarHabito(props) {
     return alert("Digite o nome do hábito!");
   }
 
-  const URL =
-    "https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits";
-
+  const URL ="https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits";
   const promise = axios.post(URL, criarHabito, header);
 
   promise.then(() => {

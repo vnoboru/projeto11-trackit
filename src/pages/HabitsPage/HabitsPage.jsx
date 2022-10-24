@@ -12,21 +12,15 @@ export default function HabitsPage() {
   const [meusHabitos, setMeusHabitos] = useState([]);
   const dias = ["D", "S", "T", "Q", "Q", "S", "S"];
 
-  //Pegar token autorização para enviar/imprimir habitos
   const header = { headers: { Authorization: `Bearer ${usuario.token}` } };
-  console.log(header);
 
   useEffect(() => {
-    const URL =
-      "https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits";
-    const token = usuario.token;
-
+    const URL = "https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits";
     const promise = axios.get(URL, header);
 
     promise.then((response) => {
       let listaHabitos = response.data;
       setMeusHabitos(listaHabitos);
-      console.log("lista atualizada:", meusHabitos);
     });
 
     promise.catch((error) => {
@@ -42,15 +36,14 @@ export default function HabitsPage() {
       setMeusHabitos(novaListaHabitos);
 
       const URL = `https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits/${idHabito}`;
-
       const promise = axios.delete(URL, header);
 
-      promise.then((res) => {
-        console.log(res.data);
+      promise.then((response) => {
+        console.log(response.data);
       });
 
-      promise.catch((err) => {
-        console.log(err);
+      promise.catch((error) => {
+        console.log(error);
       });
     }
   }
@@ -70,9 +63,10 @@ export default function HabitsPage() {
         </ContainerHabitos>
         <ContainerNovo>
           {mostrarSessao ? <CriarHabitos /> : ""}
+
           {meusHabitos ? (
             meusHabitos.map((dados) => (
-              <ContainerLista id={dados.id}>
+              <ContainerLista key={dados.id}>
                 <h1 data-identifier="habit-name">{dados.name}</h1>
                 <div>
                   {dias.map((d, i) =>

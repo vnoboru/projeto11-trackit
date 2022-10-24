@@ -11,15 +11,9 @@ function ContainerDias(props) {
       className={criarHabito.days.includes(numero) ? "marked" : ""}
       onClick={() => {
         if (criarHabito.days.includes(numero)) {
-          setCriarHabito({
-            ...criarHabito,
-            days: criarHabito.days.filter((day) => day !== numero),
-          });
+          setCriarHabito({...criarHabito, days: criarHabito.days.filter((day) => day !== numero)});
         } else {
-          setCriarHabito({
-            ...criarHabito,
-            days: [...criarHabito.days, numero],
-          });
+          setCriarHabito({...criarHabito, days: [...criarHabito.days, numero]});
         }
       }}
     >
